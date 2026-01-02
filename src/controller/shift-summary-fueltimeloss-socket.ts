@@ -2,7 +2,8 @@ import { Server } from "socket.io";
 import shiftSummaryFuelTimeLoss from "../service/shift-summary-fueltimeloss-service.ts";
 // import { logger } from "../application/logging.js";
 
-const POLLING_INTERVAL = 5000;
+const POLLING_INTERVAL = 5000; // 5 seconds
+// const POLLING_INTERVAL = 60000; // 60 seconds
 
 export class shiftSummaryFuelTimeLossSocket {
   private io: Server;

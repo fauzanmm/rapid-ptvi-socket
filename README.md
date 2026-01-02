@@ -2,106 +2,71 @@
 
 ### Site : PT Vale Indonesia
 
-Backend API Service untuk project RAPID Website, berfungsi untuk integrasi data, single source of truth, cube datamart, ataupun integrasi antar aplikasi.
+Backend Socket untuk project RAPID Website, berfungsi untuk jembatan komunikasi data antara API dengan Frontend Rapid Website. Backend ini akan menerima informasi dari front lalu memberikan response sesuai dengan request, dan backend ini memliki fungsi push data yang perlu dikirimkan ke front secara realtime.
 
-Pada dasarnya dataset yang dikembangkan berdasarkan case, kondisi, dan kebutuhan yang dialami oleh customer dari KMTS di region Indonesia. Sehingga API ini dapat menjadi salah satu data source yang terpercaya dan dapat digunakan untuk analisis, maupun reporting.
-
-Pada project backend ini menggunakan framework dari [`Sveltekit`](https://svelte.dev/).
+Pada project backend ini menggunakan [`typescript`](https://www.typescriptlang.org/) dan frameworkd dari [`express`](https://expressjs.com/).
 
 ## 🚀 Main Feature
 
-- RESTful API dengan Sveltekit framework
-- Database connection via Prisma ORM
+- Push realtime data dari back ke front.
+- Menerima request dari front lalu diproses ke back dan memberikan response feedback ke front.
+- Direct communication using [`Socket.io`](https://socket.io/)
+- Project using Express JS Framework
+- Database connection to Rapip API
 - Struktur folder modular
 - Environment-based configuration
 - Siap untuk deployment
-- Dokumentasi bisa di lihat pada [`http://ip:port/api-docs`]
 
 ## 📃 Datamart
 
 - Engine Detection
+  - `5 seconds`
   - Current Fuel Time Loss
-  - Current Shift Fuel Time Loss
   - Current Shift Summary Fuel Time Loss
+  - `60 seconds`
   - Current Shift Page Fuel Tiem Loss
-  - Monthly Summarize Fuel Time Loss
 
 ## 📁 Project Structure
 
 ```bash
-back/
- ├── .svelte-kit/           # svelte config, `npm install` to create this
- ├── build/                 # builder file (ready to prod)
+socket/
+ ├── dist/                    # builder file (ready to prod)
  ├── logs/
  │ ├── app-(year-month-date).log
  │ ├── error-(year-month-date).log
  │ ├── exception-(year-month-date).log
  │ └── rejection-(year-month-date).log
  ├── node_modules/
- ├── prisma-main-minecare-database/         # 1st database
- │ ├── main-minecare-database-client-types/ # client export file prisma, `npm run generate` to create this
- │ ├── prisma.config.ts     # config 1st database
- │ └── schema.prisma        # schema 1st database
  ├── src/
- │ ├── lib/
- │ │ ├── application/
- │ │ │ └── logging.ts       # Logger configuration
- │ │ ├── assets/
- │ │ │ └── favicon_komatsu.png
- │ │ ├── database/
- │ │ │ └── main-minecare-prisma-client.ts   # config logger when accessing prisma
- │ │ ├── error/
- │ │ │ └── error-response.ts                # error declaration
- │ │ └── service/
- │ │   ├── current-fueltimeloss-service.ts
- │ │   ├── shift-fueltimeloss-service.ts
- │ │   ├── shift-summary-fueltimeloss-service.ts
- │ │   └── shift-table-fueltimeloss-service.ts
- │ ├── routes/
- │ │ ├── (public-api)/
- │ │ │ └── api-docs.ts
- │ │ │   └── +page.svelte
- │ │ └── api/
- │ │   └── v2/
- │ │     └── fueltimeloss/
- │ │       ├── current/
- │ │       │ └── +server.ts
- │ │       ├── shift/
- │ │       │ ├── summary/
- │ │       │ │ └── +server.ts
- │ │       │ └── table/
- │ │       │   └── +server.ts
- │ │       ├── +layout.svelte
- │ │       └── +page.svelte
- │ ├── types/
- │ │ ├── assets.d.ts        # declare typescript assets
- │ │ ├── css.d.ts           # declare typescript css style
- │ │ └── swagger-ui-dist.d.ts   # declare typescript swagger-ui (front)
- │ ├── app.d.ts             # global declare typescript
- │ ├── app.html
- │ └── hooks.server.ts      # hooks server (cors in here)
- ├── static/
- │ ├── openapi.json
- │ ├── openapi.yaml         # in use
- │ └── robots.txt
- ├── .env                   # database url (check notion or ask administrator)
+ │ ├── application/
+ │ │ ├── logging.ts           # Logger configuration
+ │ │ ├── polling.ts           # global polling declaration
+ │ │ ├── socket.ts            # Socket.io server routing and connection
+ │ │ └── web.ts               # Express used routing
+ │ ├── controller/
+ │ │ ├── current-fueltimeloss-socket.ts
+ │ │ ├── shift-summary-fueltimeloss-socket.ts
+ │ │ └── shift-table-fueltimeloss-socket.ts
+ │ ├── error/
+ │ │ └── error-response.ts    # Error declaration
+ │ ├── middleware/
+ │ │ └── error-middleware.ts  # Error configuration
+ │ ├── service/
+ │ │ ├── current-fueltimeloss-service.ts
+ │ │ ├── shift-fueltimeloss-service.ts
+ │ │ ├── shift-summary-fueltimeloss-service.ts
+ │ │ └── shift-table-fueltimeloss-service.ts
+ │ └── main.ts
+ ├── .env                     # Endpoint configuration (back and front)
  ├── .gitignore
- ├── .npmrc/
- ├── .prettierignore
- ├── .prettierrc
- ├── ecosystem.config.cjs   # configuration for pm2 with rapid-backend aplication name
- ├── eslint.config.js
+ ├── ecosystem.config.cjs     # configuration for pm2 with rapid-backend aplication name
  ├── package-lock.json
  ├── package.json
  ├── README.md
- ├── svelte.config.js
- ├── tsconfig.json
- └── vite.config.ts
+ └── tsconfig.json
 ```
 
 You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
 
 # ⚙️ Deployment to Development Server
 
