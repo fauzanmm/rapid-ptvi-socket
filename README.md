@@ -74,7 +74,8 @@ You can preview the production build with `npm run preview`.
 
 - Node.js (v14 or higher)
 - npm (Node Package Manager)
-- Database connection (SQL Server)
+- Back / API endpoint
+- Front / Apps endpoint
 
 ### Installation
 
@@ -89,14 +90,9 @@ cd folder
 npm install
 
 # Create .env file in root directory with following variables
-DATABASE_URL_MAIN_MINECARE="sqlserver://ipserver:port;database=databasename;user=username;password=passwordname;encrypt=true;trustServerCertificate=true"
-DB_MAIN_MINECARE_USER="username"
-DB_MAIN_MINECARE_PASSWORD="passwordname"
-DB_MAIN_MINECARE_NAME="databasename"
-DB_MAIN_MINECARE_HOST="ipserver"
-
-# generate prisma client
-npm run generate
+API_ENDPOINT="http://ipserver:port/api/v2"
+FRONT_ENDPOINT="http://ipserver:port"
+PORT=3002
 ```
 
 ### Development Mode
@@ -104,9 +100,6 @@ npm run generate
 ```bash
 # run apps
 npm run dev
-
-# run apps in port 3001
-npm run dev3001
 ```
 
 ### Production Mode
@@ -116,7 +109,7 @@ npm run dev3001
 npm run build
 
 # Start production server
-npm run preview
+npm run start
 ```
 
 # ⚙️ Deployment to Production Server
@@ -125,20 +118,18 @@ npm run preview
 
 1. Pastikan .env sudah disesuaikan dengan server nya
 
-   - IP Server menggunakan Server Production
-   - IP Database menggunakan Database Production Server
-   - Username Database menggunakan Read only user Database Production Server
-   - Password Database menggunakan password dari user read only Database Production Server
+   - IP Backend menggunakan Production Server.
+   - IP Frontend menggunakan Production Server.
 
 2. Pastikan folder berikut sudah tersedia
 
-   - build
+   - dist
    - node_modules
    - .env
    - ecosystem.config.cjs
 
    ```bash
-   # to create build folder
+   # to create dist folder
    npm run build
    ```
 
@@ -261,11 +252,11 @@ npm run preview
 
 4. Start application
 
-   - Start API Application `(powershell recommended)`
+   - Start SOCKET Application `(powershell recommended)`
 
    ```bash
    # Masuk ke directory project API
-   cd "C:\KMTSFile\Rapid-PTVI\front"
+   cd "C:\KMTSFile\Rapid-PTVI\socket"
 
    # Run the apps
    pm2 start ecosystem.config.cjs --env production
@@ -274,7 +265,7 @@ npm run preview
    pm2 save
    ```
 
-   - Sebelum ke nomor selanjutnya, perlu dilanjutkan ke project `socket` dan `front`!
+   - Sebelum ke nomor selanjutnya, perlu dilanjutkan ke project `back` dan `front`!
    - Hal yang perlu dilakukan adalah run apps lain menggunakan pm2
 
 5. Setup pm2-installer
@@ -292,20 +283,18 @@ Jika ingin melakukan update pada aplikasi maka ada 2 section yang perlu dilakuka
 
 1. Pastikan .env sudah disesuaikan dengan server nya
 
-   - IP Server menggunakan Server Production
-   - IP Database menggunakan Database Production Server
-   - Username Database menggunakan Read only user Database Production Server
-   - Password Database menggunakan password dari user read only Database Production Server
+   - IP Backend menggunakan Production Server.
+   - IP Frontend menggunakan Production Server.
 
 2. Pastikan folder berikut sudah tersedia
 
-   - build
+   - dist
    - node_modules
    - .env
    - ecosystem.config.cjs
 
    ```bash
-   # to create build folder
+   # to create dist folder
    npm run build
    ```
 
